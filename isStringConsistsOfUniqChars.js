@@ -1,17 +1,27 @@
+const { getCharCode } = require('./util.js');
+
 function isUniqChars(str = "") {
-    let prevDiffsCounter = 0;
-    const unicodeA = "a".charCodeAt(0);
+    let bitMap = 0;
+
+    const charCodeA = getCharCode("a"); //"a".charCodeAt(0);
+
     for(let i = 0; i < str.length; i++) {
-        let unicodeAtI = str.charCodeAt(i);
+        let charCodeIth = getCharCode(str[i]); //str.charCodeAt(i);
         
-        const diff = unicodeAtI - unicodeA;
+        const diff = charCodeIth - charCodeA;
 
-        if(prevDiffsCounter & 1 << diff) return false;
+        //console.log(`diff = ${diff}`)
 
-        prevDiffsCounter |= 1 << diff;
+        //console.log(`if( ${bitMap.toString(2)} & ${(1 << diff).toString(2)} )`);
+
+        const mask = 1 << diff;
+
+        if(bitMap & mask) return false;
+
+        bitMap |= mask;
+        //console.log(`prevDiffsCounter = ${bitMap.toString(2)}`);
     }
     return true;
 }
 
-console.log(isUniqChars("abu"));
-var t;
+console.log(isUniqChars("bcdnzb"));
